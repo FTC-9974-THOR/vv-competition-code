@@ -68,12 +68,12 @@ public class ServoMode extends OpMode {
         pos2 = Range.clip(pos2, 0.01, 0.99);
         Servo2.setPosition(pos2);
 
-        telemetry.addData("Grumpy", "Cat");
+
         //telemetry.addData("arm", "arm:  " + String.format("%.2f", armPosition));
         //telemetry.addData("claw", "claw:  " + String.format("%.2f", clawPosition));
         telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
-        telemetry.addData("You found the ", "easter egg!");
+
 
     }
     double scaleInput(double dVal)  {

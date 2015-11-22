@@ -28,16 +28,16 @@ public class OvertrollMode extends LinearOpMode {
         LeftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         LeftBackMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        LeftFrontMotor.setChannelMode
+        LeftFrontMotor.setMode
                 (DcMotorController.RunMode.RESET_ENCODERS
                 );
-        LeftBackMotor.setChannelMode
+        LeftBackMotor.setMode
                 (DcMotorController.RunMode.RESET_ENCODERS
                 );
-        RightFrontMotor.setChannelMode
+        RightFrontMotor.setMode
                 (DcMotorController.RunMode.RESET_ENCODERS
                 );
-        RightBackMotor.setChannelMode
+        RightBackMotor.setMode
                 (DcMotorController.RunMode.RESET_ENCODERS
                 );
 
@@ -65,10 +65,13 @@ public class OvertrollMode extends LinearOpMode {
         Servo1.setPosition(pos);
         //sleep(10000);
         sleep(10);
-        LeftFrontMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        LeftBackMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        RightFrontMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        RightBackMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        LeftFrontMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        LeftBackMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        RightFrontMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        RightBackMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+        waitForNextHardwareCycle();
+
         int right_count = 15200;
         LeftFrontMotor.setPower(1);
         LeftBackMotor.setPower(1);
