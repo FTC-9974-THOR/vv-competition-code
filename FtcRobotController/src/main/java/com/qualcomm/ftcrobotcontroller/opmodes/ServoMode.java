@@ -79,10 +79,10 @@ public class ServoMode extends OpMode {
         telemetry.addData("LB: ", LeftBackMotor.getCurrentPosition());
         telemetry.addData("RF: ", RightFrontMotor.getCurrentPosition());
         telemetry.addData("RB: ", RightBackMotor.getCurrentPosition());
-        telemetry.addData("AVG: ", (LeftFrontMotor.getCurrentPosition() + LeftBackMotor.getCurrentPosition()
+        /*telemetry.addData("AVG: ", (LeftFrontMotor.getCurrentPosition() + LeftBackMotor.getCurrentPosition()
                 + RightFrontMotor.getCurrentPosition() + RightBackMotor.getCurrentPosition()) / 4);
         avg = (LeftFrontMotor.getCurrentPosition() + LeftBackMotor.getCurrentPosition()
-                + RightFrontMotor.getCurrentPosition() + RightBackMotor.getCurrentPosition()) / 4;
+                + RightFrontMotor.getCurrentPosition() + RightBackMotor.getCurrentPosition()) / 4; */
         telemetry.addData("LF power = ", LeftFrontMotor.getPower());
         telemetry.addData("RF power = ", RightFrontMotor.getPower());
         telemetry.addData("LB power = ", LeftBackMotor.getPower());
