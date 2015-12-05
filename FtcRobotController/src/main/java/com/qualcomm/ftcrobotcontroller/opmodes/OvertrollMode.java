@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+//import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -21,6 +23,8 @@ public class OvertrollMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        //sleep(10000);
         LeftFrontMotor = hardwareMap.dcMotor.get("left_front_drive");
         LeftBackMotor = hardwareMap.dcMotor.get("left_back_drive");
         RightFrontMotor = hardwareMap.dcMotor.get("right_front_drive");
@@ -41,7 +45,6 @@ public class OvertrollMode extends LinearOpMode {
                 (DcMotorController.RunMode.RESET_ENCODERS
                 );
 
-        waitForNextHardwareCycle();
 
         Servo1 = hardwareMap.servo.get("servo1");
         Servo2 = hardwareMap.servo.get("servo2");
@@ -50,6 +53,7 @@ public class OvertrollMode extends LinearOpMode {
         Servo2.setPosition(pos2);
 
         waitForStart();
+
 
          //At start...
         pos += 1;
@@ -63,27 +67,30 @@ public class OvertrollMode extends LinearOpMode {
 
         pos = Range.clip(pos, 0.01, 0.99);
         Servo1.setPosition(pos);
-        //sleep(10000);
-        sleep(10);
+        sleep(10000);
+        //sleep(10);
         LeftFrontMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         LeftBackMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         RightFrontMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         RightBackMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-        waitForNextHardwareCycle();
+        waitOneFullHardwareCycle();
 
-        int right_count = 15200;
+        int count = 15200;
+        int avg = (Math.abs(LeftFrontMotor.getCurrentPosition()) + Math.abs(LeftBackMotor.getCurrentPosition())
+                + Math.abs(RightFrontMotor.getCurrentPosition()) + Math.abs(RightBackMotor.getCurrentPosition())) / 4;
         LeftFrontMotor.setPower(1);
         LeftBackMotor.setPower(1);
         RightFrontMotor.setPower(1);
         RightBackMotor.setPower(1);
-        while ((Math.abs(RightFrontMotor.getCurrentPosition()) < right_count)) {
+        while (avg < count) {
             telemetry.addData("LF: ", LeftFrontMotor.getCurrentPosition());
             telemetry.addData("LB: ", LeftBackMotor.getCurrentPosition());
             telemetry.addData("RF: ", RightFrontMotor.getCurrentPosition());
             telemetry.addData("RB: ", RightBackMotor.getCurrentPosition());
-            telemetry.addData("AVG: ", (LeftFrontMotor.getCurrentPosition() + LeftBackMotor.getCurrentPosition()
-                    + RightFrontMotor.getCurrentPosition() + RightBackMotor.getCurrentPosition()) / 4);
+            avg = (Math.abs(LeftFrontMotor.getCurrentPosition()) + Math.abs(LeftBackMotor.getCurrentPosition())
+                    + Math.abs(RightFrontMotor.getCurrentPosition()) + Math.abs(RightBackMotor.getCurrentPosition())) / 4;
+            telemetry.addData("AVG: ", avg);
             telemetry.addData("LF power = ", LeftFrontMotor.getPower());
             telemetry.addData("RF power = ", RightFrontMotor.getPower());
             telemetry.addData("LB power = ", LeftBackMotor.getPower());

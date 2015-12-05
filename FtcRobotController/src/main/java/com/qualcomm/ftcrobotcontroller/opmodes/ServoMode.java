@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ServoMode extends OpMode {
     double pos = 0.01;
     double pos2 = 0.99;
+    double pos3 = 0.5;
 
     DcMotor LeftFrontMotor;
     DcMotor LeftBackMotor;
@@ -19,6 +20,8 @@ public class ServoMode extends OpMode {
     DcMotor RightBackMotor;
     Servo Servo1;
     Servo Servo2;
+
+    double avg = 0;
 
 
     @Override
@@ -33,7 +36,6 @@ public class ServoMode extends OpMode {
 
         Servo1 = hardwareMap.servo.get("servo1");
         Servo2 = hardwareMap.servo.get("servo2");
-
 
 
 
@@ -73,6 +75,23 @@ public class ServoMode extends OpMode {
         //telemetry.addData("claw", "claw:  " + String.format("%.2f", clawPosition));
         telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
+        telemetry.addData("LF: ", LeftFrontMotor.getCurrentPosition());
+        telemetry.addData("LB: ", LeftBackMotor.getCurrentPosition());
+        telemetry.addData("RF: ", RightFrontMotor.getCurrentPosition());
+        telemetry.addData("RB: ", RightBackMotor.getCurrentPosition());
+        telemetry.addData("AVG: ", (LeftFrontMotor.getCurrentPosition() + LeftBackMotor.getCurrentPosition()
+                + RightFrontMotor.getCurrentPosition() + RightBackMotor.getCurrentPosition()) / 4);
+        avg = (LeftFrontMotor.getCurrentPosition() + LeftBackMotor.getCurrentPosition()
+                + RightFrontMotor.getCurrentPosition() + RightBackMotor.getCurrentPosition()) / 4;
+        telemetry.addData("LF power = ", LeftFrontMotor.getPower());
+        telemetry.addData("RF power = ", RightFrontMotor.getPower());
+        telemetry.addData("LB power = ", LeftBackMotor.getPower());
+        telemetry.addData("RB power = ", RightBackMotor.getPower());
+        telemetry.addData("LF target = ", LeftFrontMotor.getTargetPosition());
+        telemetry.addData("RF target = ", RightFrontMotor.getTargetPosition());
+        telemetry.addData("LB target = ", LeftBackMotor.getTargetPosition());
+        telemetry.addData("RB target = ", RightBackMotor.getTargetPosition());
+
 
 
     }
