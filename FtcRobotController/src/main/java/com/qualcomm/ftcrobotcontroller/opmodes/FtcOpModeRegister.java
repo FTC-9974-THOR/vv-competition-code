@@ -68,6 +68,8 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("OvertrollMode", OvertrollMode.class);
     manager.register("ExperimentMode", ExperimentMode.class);
     //manager.register ("Driveincircles", Driveincircles.class);
+    manager.register("OvertrollMode2", OvertrollMode2.class);
+    manager.register("ServoMode2", ServoMode2.class);
 
 
     /*
