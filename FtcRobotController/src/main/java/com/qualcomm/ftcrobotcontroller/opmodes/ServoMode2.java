@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 public class ServoMode2 extends OpMode {
-    double pos = 0.01;
-    double pos2 = 0.99;
-    double pos3 = 0.5;
-    double pos4 = 0.5;
+    double servo1Position = 0.01;
+    double servo2Position = 0.99;
+    double servo3Position = 0.75;
+    double servo4Position = 0.01;
 
     DcMotor LeftFrontMotor;
     DcMotor LeftBackMotor;
@@ -41,20 +41,23 @@ public class ServoMode2 extends OpMode {
         Servo3 = hardwareMap.servo.get("servo3");
         Servo4 = hardwareMap.servo.get("servo4");
 
-        pos4 = Servo4.getPosition();
+        telemetry.addData("servo4Position = ", Servo4.getPosition());
+
+        //Servo4.setPosition(servo4Position);
+
     }
     @Override
     public void loop() {
 
 
-        float right = -gamepad1.left_stick_y;
-        float left = -gamepad1.right_stick_y;
+        double right = -gamepad1.left_stick_y;
+        double left = -gamepad1.right_stick_y;
 
         right = Range.clip(right, -1, 1);
         left = Range.clip(left, -1, 1);
 
-        right = (float)scaleInput(right);
-        left =  (float)scaleInput(left);
+        right = scaleInput(right);
+        left =  scaleInput(left);
 
         RightFrontMotor.setPower(right);
         RightBackMotor.setPower(right);
@@ -62,30 +65,44 @@ public class ServoMode2 extends OpMode {
         LeftBackMotor.setPower(left);
 
 
-        if (gamepad2.x) pos += 0.05;
-        if (gamepad2.a) pos -= 0.05;
-        pos = Range.clip(pos, 0.01, 0.99);
-        Servo1.setPosition(pos);
+        if (gamepad2.x) {
+            servo1Position += 0.05;
+        }
+        if (gamepad2.a) {
+            servo1Position -= 0.05;
+        }
+        servo1Position = Range.clip(servo1Position, 0.01, 0.99);
 
+        if (gamepad2.y) {
+            servo2Position -= 0.05;
+        }
+        if (gamepad2.b) {
+            servo2Position += 0.05;
+        }
+        servo2Position = Range.clip(servo2Position, 0.01, 0.99);
 
-        if (gamepad2.y) pos2 -= 0.05;
-        if (gamepad2.b) pos2 += 0.05;
-        pos2 = Range.clip(pos2, 0.01, 0.99);
-        Servo2.setPosition(pos2);
+        if (gamepad2.right_bumper) {
+            servo3Position -= 0.05;
+        }
+        if (gamepad2.right_trigger >= 0.9F) {
+            servo3Position += 0.05;
+        }
+        servo3Position = Range.clip(servo3Position, 0.20, 0.80);
 
-        if (gamepad2.right_bumper) pos3 -= 0.05;
-        if (gamepad2.right_trigger >= 0.9F) pos3 += 0.05;
-        pos3 = Range.clip(pos3, 0.20, 0.80);
-        Servo3.setPosition(pos3);
+        if (gamepad2.left_bumper) {
+            servo4Position -= 0.05;
+        }
+        if (gamepad2.left_trigger >= 0.9F) {
+            servo4Position += 0.05;
+        }
+        servo4Position = Range.clip(servo4Position, 0.01, 0.99);
 
+        // Set servo states
+        Servo1.setPosition(servo1Position);
+        Servo2.setPosition(servo2Position);
+        Servo3.setPosition(servo3Position);
+        Servo4.setPosition(servo4Position);
 
-        if (gamepad2.left_bumper) pos4 -= 0.05;
-        if (gamepad2.left_trigger >= 0.9F)pos4 += 0.05;
-        pos4 = Range.clip(pos4, 0.01, 0.99);
-        Servo4.setPosition(pos4);
-
-        //telemetry.addData("arm", "arm:  " + String.format("%.2f", armPosition));
-        //telemetry.addData("claw", "claw:  " + String.format("%.2f", clawPosition));
         telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
         telemetry.addData("LF: ", LeftFrontMotor.getCurrentPosition());
@@ -104,11 +121,10 @@ public class ServoMode2 extends OpMode {
         telemetry.addData("RF target = ", RightFrontMotor.getTargetPosition());
         telemetry.addData("LB target = ", LeftBackMotor.getTargetPosition());
         telemetry.addData("RB target = ", RightBackMotor.getTargetPosition());
-        telemetry.addData("pos", pos);
-        telemetry.addData("pos2", pos2);
-        telemetry.addData("pos3", pos3);
-
-
+        telemetry.addData("servo1Position = ", servo1Position);
+        telemetry.addData("servo2Position = ", servo2Position);
+        telemetry.addData("servo3Position = ", servo3Position);
+        telemetry.addData("servo4Position = ", servo4Position);
 
     }
     double scaleInput(double dVal)  {
