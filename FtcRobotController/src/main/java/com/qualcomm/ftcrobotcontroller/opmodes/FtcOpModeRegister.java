@@ -70,7 +70,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     //manager.register ("Driveincircles", Driveincircles.class);
     manager.register("OvertrollMode2", OvertrollMode2.class);
     manager.register("ServoMode2", ServoMode2.class);
-
+    manager.register("SevoMode3", ServoMode3.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.

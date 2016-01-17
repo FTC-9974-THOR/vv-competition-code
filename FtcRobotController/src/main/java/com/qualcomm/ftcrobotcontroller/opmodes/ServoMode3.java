@@ -2,28 +2,24 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by FTC on 10/8/2015.
  */
 
-public class ServoMode extends OpMode {
+public class ServoMode3 extends OpMode {
     double pos = 0.01;
     double pos2 = 0.99;
-    double pos3 = 0.5;
 
     DcMotor LeftFrontMotor;
     DcMotor LeftBackMotor;
     DcMotor RightFrontMotor;
     DcMotor RightBackMotor;
-    //DcMotor SlideMotor;
+    DcMotor SlideMotor;
     Servo Servo1;
     Servo Servo2;
-
-    double avg = 0;
-
 
     @Override
     public void init(){
@@ -35,7 +31,7 @@ public class ServoMode extends OpMode {
         LeftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         LeftBackMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        //SlideMotor = hardwareMap.dcMotor.get("slide_motor");
+        SlideMotor = hardwareMap.dcMotor.get("slide_motor");
 
         Servo1 = hardwareMap.servo.get("servo1");
         Servo2 = hardwareMap.servo.get("servo2");
@@ -62,24 +58,36 @@ public class ServoMode extends OpMode {
         LeftBackMotor.setPower(left);
 
 
-        if (gamepad2.x) pos += 0.05;
-        if (gamepad2.a) pos -= 0.05;
+        if (gamepad2.x) {
+            pos += 0.05;
+        }
+        if (gamepad2.a) {
+            pos -= 0.05;
+        }
         pos = Range.clip(pos, 0.01, 0.99);
         Servo1.setPosition(pos);
 
 
-        if (gamepad2.y) pos2 -= 0.05;
-        if (gamepad2.b) pos2 += 0.05;
+        if (gamepad2.y) {
+            pos2 -= 0.05;
+        }
+        if (gamepad2.b) {
+            pos2 += 0.05;
+        }
         pos2 = Range.clip(pos2, 0.01, 0.99);
         Servo2.setPosition(pos2);
 
-        /*if (gamepad1.dpad_up) {
+        if (gamepad1.dpad_up) {
             SlideMotor.setPower(0.5);
         } else if (gamepad1.dpad_down) {
             SlideMotor.setPower(-0.5);
         } else {
             SlideMotor.setPower(0.0);
-        }*/
+        }
+
+
+
+
         //telemetry.addData("arm", "arm:  " + String.format("%.2f", armPosition));
         //telemetry.addData("claw", "claw:  " + String.format("%.2f", clawPosition));
         telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
