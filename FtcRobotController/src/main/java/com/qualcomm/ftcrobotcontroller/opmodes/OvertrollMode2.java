@@ -56,7 +56,7 @@ public class OvertrollMode2 extends LinearOpMode {
         Servo3 = hardwareMap.servo.get("servo3");
         Servo4 = hardwareMap.servo.get("servo4");
 
-        double pos3 = Servo3.getPosition();
+        double pos3 = 0.8; //Servo3.getPosition();
         Servo3.setPosition(pos3);
 
         double pos4 = Servo4.getPosition();
