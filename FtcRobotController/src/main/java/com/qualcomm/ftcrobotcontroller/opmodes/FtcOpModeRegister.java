@@ -56,7 +56,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
 
     manager.register("NullOp", NullOp.class);
-
+    manager.register("ImprovedRoboTest", RoboTestCam.class);
     manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
     manager.register("K9TeleOp", K9TeleOp.class);
     manager.register ("PushBotAuto", PushBotAuto.class);
@@ -71,6 +71,10 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("OvertrollMode2", OvertrollMode2.class);
     manager.register("ServoMode2", ServoMode2.class);
     manager.register("SevoMode3", ServoMode3.class);
+    manager.register("RoboTestII", RoboTestII.class);
+    manager.register("ServoModeTemplate", ServoModeTemplate.class);
+    manager.register("RangerBotTemplate", RangerBotTemplate.class);
+    manager.register("VIRI", VIRI.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
