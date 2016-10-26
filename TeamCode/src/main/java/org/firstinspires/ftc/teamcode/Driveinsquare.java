@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,8 +17,8 @@ public class Driveinsquare extends LinearOpMode {
         LeftMotor = hardwareMap.dcMotor.get("left_drive");
         RightMotor = hardwareMap.dcMotor.get("right_drive");
         RightMotor.setDirection(DcMotor.Direction.REVERSE);
-        LeftMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        RightMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        LeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
@@ -34,8 +34,8 @@ public class Driveinsquare extends LinearOpMode {
             sleep(1500);
         }
 
-        LeftMotor.setPowerFloat();
-        RightMotor.setPowerFloat();
+        LeftMotor.setPower(0.0);
+        RightMotor.setPower(0.0);
 
 
 

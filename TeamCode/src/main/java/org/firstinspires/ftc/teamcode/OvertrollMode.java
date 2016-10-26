@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package org.firstinspires.ftc.teamcode;
 
 //import android.util.Log;
 
@@ -33,16 +33,16 @@ public class OvertrollMode extends LinearOpMode {
         LeftBackMotor.setDirection(DcMotor.Direction.REVERSE);
 
         LeftFrontMotor.setMode
-                (DcMotorController.RunMode.RESET_ENCODERS
+                (DcMotor.RunMode.STOP_AND_RESET_ENCODER
                 );
         LeftBackMotor.setMode
-                (DcMotorController.RunMode.RESET_ENCODERS
+                (DcMotor.RunMode.STOP_AND_RESET_ENCODER
                 );
         RightFrontMotor.setMode
-                (DcMotorController.RunMode.RESET_ENCODERS
+                (DcMotor.RunMode.STOP_AND_RESET_ENCODER
                 );
         RightBackMotor.setMode
-                (DcMotorController.RunMode.RESET_ENCODERS
+                (DcMotor.RunMode.STOP_AND_RESET_ENCODER
                 );
 
 
@@ -69,10 +69,10 @@ public class OvertrollMode extends LinearOpMode {
         Servo1.setPosition(pos);
         sleep(10000);
         //sleep(10);
-        LeftFrontMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        LeftBackMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        RightFrontMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        RightBackMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        LeftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitOneFullHardwareCycle();
 

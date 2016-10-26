@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -68,17 +68,17 @@ public class CompetitionOpMode extends LinearOpMode {
       //RightFrontMotor.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
       //RightBackMotor.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-      LeftFrontMotor.setChannelMode
-              (DcMotorController.RunMode.RESET_ENCODERS
+      LeftFrontMotor.setMode
+              (DcMotor.RunMode.STOP_AND_RESET_ENCODER
               );
-      LeftBackMotor.setChannelMode
-              (DcMotorController.RunMode.RESET_ENCODERS
+      LeftBackMotor.setMode
+              (DcMotor.RunMode.STOP_AND_RESET_ENCODER
               );
-      RightFrontMotor.setChannelMode
-              (DcMotorController.RunMode.RESET_ENCODERS
+      RightFrontMotor.setMode
+              (DcMotor.RunMode.STOP_AND_RESET_ENCODER
               );
-      RightBackMotor.setChannelMode
-              (DcMotorController.RunMode.RESET_ENCODERS
+      RightBackMotor.setMode
+              (DcMotor.RunMode.STOP_AND_RESET_ENCODER
               );
 
 
@@ -97,10 +97,10 @@ public class CompetitionOpMode extends LinearOpMode {
           LeftBackMotor.setTargetPosition(21000);
         RightFrontMotor.setTargetPosition(21000);
         RightBackMotor.setTargetPosition(21000);*/
-      LeftFrontMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-      LeftBackMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-      RightFrontMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-      RightBackMotor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+      LeftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      LeftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      RightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      RightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
       int left_count = 9200;
       int right_count = 15200;
       LeftFrontMotor.setPower(1);
@@ -125,10 +125,10 @@ public class CompetitionOpMode extends LinearOpMode {
       LeftBackMotor.setPower(0);
       RightFrontMotor.setPower(0);
       RightBackMotor.setPower(0);
-      LeftFrontMotor.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-      LeftBackMotor.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-      RightFrontMotor.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-      RightBackMotor.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+      LeftFrontMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+      LeftBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+      RightFrontMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+      RightBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
       //sleep(20);
 
