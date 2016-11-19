@@ -3,6 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.robot.RobotStatus;
+import com.qualcomm.robotcore.util.BatteryChecker;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.RobotLog;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 //import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -11,7 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Competition program
  */
 
-@TeleOp(name="Competition", group="2017")
+@TeleOp(name="Competition (Error handling)", group="2017")
 
 @SuppressWarnings("unused")
 
@@ -26,14 +35,38 @@ public class CompetitionVelocityErrorHandling extends OpMode {
     DcMotor leftLauncher;
     DcMotor rightLauncher;
 
+    DcMotor leftDrive;
+    DcMotor rightDrive;
+
     //Servo buttonPresser;
+
+
+
+    boolean isInRB;
+    @Override
+    protected void preInit() {
+        super.preInit();
+
+        Iterator<HardwareDevice> devices = hardwareMap.iterator();
+
+        /*if (!devices.hasNext()) {
+            RobotLog.setGlobalWarningMessage("TURN ON THE ROBOT!");
+        }*/
+    }
 
     @Override
     public void init() {
         //leftPid = new PID(1, 1, 1, 0, 330, false, 0, 1000, 0, 1000);
 
-        rb = new RobotDrive(RobotDrive.TWO_WHEEL, hardwareMap);
-
+        RobotLog.setGlobalWarningMessage("TURN ON THE ROBOT!");
+        try {
+            rb = new RobotDrive(RobotDrive.TWO_WHEEL, hardwareMap);
+            isInRB = true;
+        } catch (Exception e) {
+            isInRB = false;
+            telemetry.addData("Error on drive motor mapping", e.getMessage());
+            remapDrive(hardwareMap.dcMotor.entrySet());
+        }
         intake = hardwareMap.dcMotor.get("intake");
         leftLauncher = hardwareMap.dcMotor.get("LL");
         rightLauncher = hardwareMap.dcMotor.get("RL");
@@ -48,7 +81,12 @@ public class CompetitionVelocityErrorHandling extends OpMode {
     @Override
     public void loop() {
         //if (!gamepad2.right_bumper) {   // Disable drive train so the firing motors spin faster
-        rb.tankUpdate(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
+        if (isInRB) {
+            rb.tankUpdate(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
+        } else {
+            rightDrive.setPower(Range.clip(-gamepad1.right_stick_y, -1, 1));
+            leftDrive.setPower(Range.clip(-gamepad1.left_stick_y, -1, 1));
+        }
         //}
 
         if (gamepad2.b) {
@@ -85,5 +123,49 @@ public class CompetitionVelocityErrorHandling extends OpMode {
         telemetry.addLine("Servo data");
         telemetry.addData("Position", buttonPresser.getPosition());
         */
+
+    }
+
+    String likelyLeft[] = {
+            "Left",
+            "left",
+            "l",
+            "L",
+            "LEFT"
+    };
+
+    String likelyRight[] = {
+            "Right",
+            "right",
+            "r",
+            "R",
+            "RIGHT"
+    };
+
+    private void remapDrive(Set<Map.Entry<String, DcMotor>> entries) {
+        //if (entries.isEmpty())
+        /*Set<Map.Entry<String, DcMotor>> _entries = entries;
+        Map.Entry<String, DcMotor>[] entryArray = (Map.Entry<String, DcMotor>[]) _entries.toArray();
+        for (Map.Entry<String, DcMotor> stringDcMotorEntry : entryArray) {
+            if (stringDcMotorEntry.getKey().contains("drive") || stringDcMotorEntry.getKey().contains("Drive") || stringDcMotorEntry.getKey().contains("DRIVE")) {
+                // Likely drive motor
+                for (String entry : likelyLeft) {
+                    if (stringDcMotorEntry.getKey().contains(entry)) {
+                        // Likely left drive motor found
+                        leftDrive = stringDcMotorEntry.getValue();
+                        telemetry.addData("Likely Left Drive found; assigning", entry);
+                    }
+                }
+
+                for (String entry : likelyRight) {
+                    if (stringDcMotorEntry.getKey().contains(entry)) {
+                        // Likely left drive motor found
+                        rightDrive = stringDcMotorEntry.getValue();
+                        telemetry.addData("Likely Right Drive found; assigning", entry);
+                    }
+                }
+            }
+        } */
+        //if ()
     }
 }

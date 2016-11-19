@@ -52,7 +52,7 @@ public class CompetitionVelocity extends OpMode {
         //}
 
         if (gamepad2.b) {
-            intake.setPower(1);
+            intake.setPower(0.7);
         } else if (gamepad2.a) {    // Because the motor can't go both directions at once
             intake.setPower(-1);
         } else {
@@ -66,8 +66,11 @@ public class CompetitionVelocity extends OpMode {
         }
         */
         if (gamepad2.right_bumper) {
-            leftLauncher.setPower(-1);
-            rightLauncher.setPower(1);
+            leftLauncher.setPower(1);
+            rightLauncher.setPower(-1);
+        } else if(gamepad2.left_bumper) {
+            leftLauncher.setPower(-0.05);
+            rightLauncher.setPower(0.05);
         } else {
             leftLauncher.setPower(0);
             rightLauncher.setPower(0);

@@ -3,19 +3,18 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 
 
 /**
  * Created by FTC on 10/15/2015.
  */
-@Autonomous(name="Drive to cap ball", group="2017")
-public class DriveToCapBall extends LinearOpMode {
+@Autonomous(name="Drive to cap ball and turn", group="2017")
+public class DriveToCapBallAndTurn extends LinearOpMode {
     DcMotor LeftMotor;
     DcMotor RightMotor;
 
     // How long (in milliseconds) to run the motors
-    final int motorTime = 3000;
+    final int motorTime = 2500;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,13 +30,20 @@ public class DriveToCapBall extends LinearOpMode {
 
         sleep(10000);
 
-        LeftMotor.setPower(-1.0);
-        RightMotor.setPower(-1.0);
+        for(int i=0; i<1; i++) {
+            LeftMotor.setPower(-1.0);
+            RightMotor.setPower(-1.0);
 
-        sleep(motorTime);
+            sleep(motorTime);
+        }
 
-        LeftMotor.setPower(0.0);
-        RightMotor.setPower(0.0);
+        LeftMotor.setPower(-0.8);
+        RightMotor.setPower(-0.2);
+
+        sleep(2000);
+
+        LeftMotor.setPower(0);
+        RightMotor.setPower(0);
 
 
 

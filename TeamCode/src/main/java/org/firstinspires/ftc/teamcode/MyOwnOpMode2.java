@@ -2,28 +2,30 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+//import com.qualcomm.robotcore.hardware.Servo;
 //import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
  * Created by FTC on 10/8/2015.
  */
+@TeleOp (name="MyOwnOpMode2",group = "2017")
 public class MyOwnOpMode2 extends OpMode {
 
     DcMotor LeftMotor;
     DcMotor RightMotor;
-    Servo Servo1;
-    double avg = 0;
+    //Servo Servo1;
+    //double avg = 0;
 
     @Override
     public void init(){
         //get references to the motors from the hardware map
-        LeftMotor = hardwareMap.dcMotor.get("left_drive");
-        RightMotor = hardwareMap.dcMotor.get("right_drive");
+        LeftMotor = hardwareMap.dcMotor.get("FL");
+        RightMotor = hardwareMap.dcMotor.get("FR");
         LeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        Servo1 = hardwareMap.servo.get("servo1");
+        //Servo1 = hardwareMap.servo.get("servo1");
 
 
     }
@@ -53,8 +55,6 @@ public class MyOwnOpMode2 extends OpMode {
 
 
         telemetry.addData("Text", "*** Robot Data***");
-        //telemetry.addData("arm", "arm:  " + String.format("%.2f", armPosition));
-        //telemetry.addData("claw", "claw:  " + String.format("%.2f", clawPosition));
         telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
         telemetry.addData("servo1Position" , "servo1Position = " + String.format("%.2f",servo1Position));
@@ -63,10 +63,10 @@ public class MyOwnOpMode2 extends OpMode {
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
 
-        // get the corresponding index for the scaleInput array.
+         //get the corresponding index for the scaleInput array.
         int index = (int) (dVal * 16.0);
 
-        // index should be positive.
+         //index should be positive.
         if (index < 0) {
             index = -index;
         }
