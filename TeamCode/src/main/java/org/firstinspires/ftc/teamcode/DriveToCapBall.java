@@ -13,9 +13,14 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 public class DriveToCapBall extends LinearOpMode {
     DcMotor LeftMotor;
     DcMotor RightMotor;
+    DcMotor leftLauncher;
+    DcMotor rightLauncher;
+    DcMotor intake;
+
+
 
     // How long (in milliseconds) to run the motors
-    final int motorTime = 3000;
+    final int driveTime = 2000;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,17 +29,42 @@ public class DriveToCapBall extends LinearOpMode {
         RightMotor.setDirection(DcMotor.Direction.REVERSE);
         LeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLauncher = hardwareMap.dcMotor.get("LL");
+        rightLauncher = hardwareMap.dcMotor.get("RL");
+        leftLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        intake = hardwareMap.dcMotor.get("intake");
 
         telemetry.addLine("");
 
         waitForStart();
 
-        sleep(10000);
+        leftLauncher.setPower(0.05);
+        rightLauncher.setPower(-0.05);
+
+        sleep(3000);
+
+        intake.setPower(0.7);
+
+        sleep(1500);
+
+        intake.setPower(0);
+        leftLauncher.setPower(0);
+        rightLauncher.setPower(0);
+
+        sleep(5500);
 
         LeftMotor.setPower(-1.0);
         RightMotor.setPower(-1.0);
 
-        sleep(motorTime);
+        sleep(driveTime);
+
+        LeftMotor.setPower(1.0);
+        RightMotor.setPower(-1.0);
+
+        sleep(250);
 
         LeftMotor.setPower(0.0);
         RightMotor.setPower(0.0);
