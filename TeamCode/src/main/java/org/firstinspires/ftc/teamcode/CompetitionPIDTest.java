@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsUsbDcMotorController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.util.DifferentialControlLoopCoefficients;
 //import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -11,11 +15,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Competition program
  */
 
-@TeleOp(name="Competition", group="2017")
-
+@TeleOp(name="Competition PID Test", group="2017")
+@Disabled
 @SuppressWarnings("unused")
 
-public class CompetitionVelocity extends OpMode {
+public class CompetitionPIDTest extends OpMode {
 
     RobotDrive rb;
 
@@ -26,7 +30,14 @@ public class CompetitionVelocity extends OpMode {
     DcMotor leftLauncher;
     DcMotor rightLauncher;
 
+    ModernRoboticsUsbDcMotorController launcherControl;
+    DifferentialControlLoopCoefficients pid[];
+
     //Servo buttonPresser;
+
+    private int ticksPerSpeed(double ratio) {
+        return ((int) ratio * 29);  // returns ticks per rev for a certain speed
+    }
 
     @Override
     public void init() {
@@ -37,8 +48,13 @@ public class CompetitionVelocity extends OpMode {
         intake = hardwareMap.dcMotor.get("intake");
         leftLauncher = hardwareMap.dcMotor.get("LL");
         rightLauncher = hardwareMap.dcMotor.get("RL");
+        launcherControl = (ModernRoboticsUsbDcMotorController) hardwareMap.dcMotorController.get("launch control");
+        leftLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLauncher.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLauncher.setMaxSpeed(3065); // This corresponds to 1784 rpm. 29.7 ticks per rev
+        rightLauncher.setMaxSpeed(3065);
         leftLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
@@ -73,9 +89,6 @@ public class CompetitionVelocity extends OpMode {
         } else if(gamepad2.left_bumper) {
             leftLauncher.setPower(0.05);
             rightLauncher.setPower(-0.05);
-        } else if (gamepad2.dpad_down) {
-            leftLauncher.setPower(-0.05);
-            rightLauncher.setPower(0.05);
         } else {
             leftLauncher.setPower(0);
             rightLauncher.setPower(0);
@@ -85,6 +98,17 @@ public class CompetitionVelocity extends OpMode {
         telemetry.addData("Left RPM", leftLauncher.getPower()*330);     // The output shaft should
         telemetry.addData("Right RPM", rightLauncher.getPower()*330);   // be turning at roughly
                                                                         // 330 times it's input power
+        pid[0] = launcherControl.getDifferentialControlLoopCoefficients(1);
+        pid[1] = launcherControl.getDifferentialControlLoopCoefficients(2);
+
+        telemetry.addLine("PID stuff");
+        telemetry.addData("Motor 1 P", pid[0].p);
+        telemetry.addData("Motor 1 I", pid[0].i);
+        telemetry.addData("Motor 1 D", pid[0].d);
+        telemetry.addData("Motor 2 P", pid[1].p);
+        telemetry.addData("Motor 2 I", pid[1].i);
+        telemetry.addData("Motor 2 D", pid[1].d);
+
         telemetry.addLine("Encoder values");
         telemetry.addData("Left Drive", rb.frontLeft.getCurrentPosition());
         telemetry.addData("Right Drive", rb.frontRight.getCurrentPosition());
