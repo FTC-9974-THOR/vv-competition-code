@@ -1,16 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 /**
  * Created by FTC on 10/15/2015.
  */
-@Autonomous(name="Drive to cap ball", group="2017")
-public class DriveToCapBall extends LinearOpMode {
+@Autonomous(name="Competition Auto", group="2017")
+public class JustFling2 extends LinearOpMode {
     DcMotor LeftMotor;
     DcMotor RightMotor;
     DcMotor leftLauncher;
@@ -41,8 +40,18 @@ public class DriveToCapBall extends LinearOpMode {
 
         waitForStart();
 
-        leftLauncher.setPower(0.7);
-        rightLauncher.setPower(-0.7);
+        LeftMotor.setPower(-1.0);
+        RightMotor.setPower(-1.0);
+
+        sleep(250);
+
+        LeftMotor.setPower(0);
+        RightMotor.setPower(0);
+
+        sleep(1000);
+
+        leftLauncher.setPower(0.75);
+        rightLauncher.setPower(-0.75);
 
         sleep(3000);
 
@@ -59,17 +68,16 @@ public class DriveToCapBall extends LinearOpMode {
         LeftMotor.setPower(-1.0);
         RightMotor.setPower(-1.0);
 
-        sleep(driveTime);
+        sleep(driveTime-250);
 
+        /*
         LeftMotor.setPower(1.0);
         RightMotor.setPower(-1.0);
 
         sleep(250);
-
+        */
         LeftMotor.setPower(0.0);
         RightMotor.setPower(0.0);
-
-
 
     }
 

@@ -15,12 +15,40 @@ public class RobotDrive {
     static public final int FOUR_WHEEL = 0;     // 4 wheel drive
     static public final int TWO_WHEEL = 1;      // Ranger bot
 
+    public enum MODES {
+        RANGER,
+        TANK,
+        KIWI,
+        HOLONOMIC,
+    }
+
     private int mode;
 
     public DcMotor frontLeft;
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+
+    DcMotor[] motors;
+
+    private double curveSensitivity = 0.5;
+
+    /**
+     * Construct a new robot config
+     * @param mode RANGER, TANK, KIWI, or HOLONOMIC
+     * @param hw hardware map
+     */
+    public RobotDrive(MODES mode, HardwareMap hw) {
+        switch (mode) {
+            case RANGER:
+                frontLeft = hw.dcMotor.get("FL");
+                frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+                frontRight = hw.dcMotor.get("FR");
+                // TODO find a better way to do this
+                motors = new DcMotor[] {frontLeft, frontRight};
+                break;
+        }
+    }
 
     /**
      * Returns a new RobotDrive object. Object oriented programming for the win!
@@ -62,6 +90,15 @@ public class RobotDrive {
         return mode;
     }
 
+    public void setMode(DcMotor.RunMode mode) {
+        frontLeft.setMode(mode);
+        frontRight.setMode(mode);
+    }
+
+    public void update (double left, double right) {
+        this.tankUpdate(left, right);
+    }
+
     /**
      * Built in tank drive
      * @param left left input
@@ -82,5 +119,85 @@ public class RobotDrive {
             default:
                 break;
         }
+    }
+/**
+     * Set the encoder targets for the motors
+     * @param leftTarget new encoder target
+     * @param rightTarget new encoder target
+     */
+    public void setMotorTargets(int leftTarget, int rightTarget) {
+        this.frontLeft.setTargetPosition(leftTarget);
+        this.frontRight.setTargetPosition(rightTarget);
+    }
+
+    /**
+     * Returns true if the motors are busy.
+     * @param both if both motors must be busy to return true
+     * @return if the motors are busy
+     */
+    public boolean areMotorsBusy(boolean both) {
+        if (both) {
+            return (frontRight.isBusy() && frontLeft.isBusy());
+        } else {
+            return (frontRight.isBusy() || frontLeft.isBusy());
+        }
+    }
+
+    /**
+     * The RobotDrive.Drive command, ported from the C++ WPIlib
+     * @param power power of motors
+     * @param curve angle to turn
+     */
+    public void curve(double power, double curve) {
+        double leftOut;
+        double rightOut;
+
+        if (curve < 0) {
+            double curveLog = Math.log(-curve);
+            double ratio = (curveLog - curveSensitivity) / (curveLog + curveSensitivity);
+            ratio = (ratio == 0) ? 0.0000000001 : ratio;
+            leftOut = power / ratio;
+            rightOut = power;
+        } else if (curve > 0) {
+            double curveLog = Math.log(curve);
+            double ratio = (curveLog - curveSensitivity) / (curveLog + curveSensitivity);
+            ratio = (ratio == 0) ? 0.0000000001 : ratio;
+            leftOut = power;
+            rightOut = power / ratio;
+        } else {
+            leftOut = power;
+            rightOut = power;
+        }
+
+        this.update(leftOut, rightOut);
+    }
+
+    /**
+     * Like curve(), but it does it in place
+     * @param power power of motors
+     * @param curve angle to turn
+     */
+    public void countersteerCurve(double power, double curve) {
+        double leftOut;
+        double rightOut;
+
+        if (curve < 0) {
+            double curveLog = Math.log(-curve);
+            double ratio = (curveLog - curveSensitivity) / (curveLog + curveSensitivity);
+            ratio = (ratio == 0) ? 0.0000000001 : ratio;
+            leftOut = -power / ratio;
+            rightOut = power / ratio;
+        } else if (curve > 0) {
+            double curveLog = Math.log(curve);
+            double ratio = (curveLog - curveSensitivity) / (curveLog + curveSensitivity);
+            ratio = (ratio == 0) ? 0.0000000001 : ratio;
+            leftOut = power / ratio;
+            rightOut = -power / ratio;
+        } else {
+            leftOut = power;
+            rightOut = power;
+        }
+
+        this.update(leftOut, rightOut);
     }
 }

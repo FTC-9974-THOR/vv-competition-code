@@ -25,6 +25,7 @@ public class CompetitionVelocity extends OpMode {
     DcMotor intake;
     DcMotor leftLauncher;
     DcMotor rightLauncher;
+    DcMotor slide;
 
     //Servo buttonPresser;
 
@@ -41,6 +42,8 @@ public class CompetitionVelocity extends OpMode {
         rightLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightLauncher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        slide = hardwareMap.dcMotor.get("slide");
 
         //buttonPresser = hardwareMap.servo.get("servo");
     }
@@ -59,6 +62,14 @@ public class CompetitionVelocity extends OpMode {
             intake.setPower(gamepad2.left_trigger);
         } else {
             intake.setPower(0);
+        }
+
+        if (gamepad2.dpad_left) {
+            slide.setPower(0.5);
+        } else if (gamepad2.dpad_right) {
+            slide.setPower(-0.5);
+        } else {
+            slide.setPower(0);
         }
         /*
         if (gamepad1.left_bumper) {

@@ -117,6 +117,11 @@ public class DriveToCapBallNewAndImproved extends LinearOpMode {
         sleep(driveTime);
         */
 
+        LeftMotor.setPower(0.0);
+        RightMotor.setPower(0.0);
+
+        sleep(100);
+
         LeftMotor.setPower(1.0);
         RightMotor.setPower(-1.0);
 
