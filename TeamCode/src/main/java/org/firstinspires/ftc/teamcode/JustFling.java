@@ -41,8 +41,9 @@ public class JustFling extends LinearOpMode {
 
         waitForStart();
 
-        leftLauncher.setPower(0.05);
-        rightLauncher.setPower(-0.05);
+
+        leftLauncher.setPower(0.6);
+        rightLauncher.setPower(-0.6);
 
         sleep(3000);
 

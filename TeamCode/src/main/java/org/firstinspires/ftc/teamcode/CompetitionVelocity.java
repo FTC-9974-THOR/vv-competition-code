@@ -27,6 +27,8 @@ public class CompetitionVelocity extends OpMode {
     DcMotor rightLauncher;
     DcMotor slide;
 
+    final int ticksForSlide = 5340;
+
     //Servo buttonPresser;
 
     @Override
@@ -59,18 +61,18 @@ public class CompetitionVelocity extends OpMode {
         } else if (gamepad2.a) {    // Because the motor can't go both directions at once
             intake.setPower(-1);
         } else if (gamepad2.left_trigger > 0){
-            intake.setPower(gamepad2.left_trigger);
+            intake.setPower(-gamepad2.left_trigger);
         } else {
             intake.setPower(0);
         }
 
-        if (gamepad2.dpad_left) {
+        /*if (gamepad2.dpad_left) {
             slide.setPower(0.5);
         } else if (gamepad2.dpad_right) {
             slide.setPower(-0.5);
         } else {
             slide.setPower(0);
-        }
+        }*/
         /*
         if (gamepad1.left_bumper) {
             buttonPresser.setPosition(90);
@@ -79,22 +81,25 @@ public class CompetitionVelocity extends OpMode {
         }
         */
         if (gamepad2.right_bumper) {
-            leftLauncher.setPower(0.02);
-            rightLauncher.setPower(-0.02);
-        } else if(gamepad2.left_bumper) {
-            leftLauncher.setPower(0.05);
-            rightLauncher.setPower(-0.05);
-        } else if (gamepad2.dpad_down) {
-            leftLauncher.setPower(-0.05);
-            rightLauncher.setPower(0.05);
+            leftLauncher.setPower(0.6);
+            rightLauncher.setPower(-0.6);
+        } /*else if(gamepad2.left_bumper) {
+            leftLauncher.setPower(0.7);
+            rightLauncher.setPower(-0.7);
+        }*/ else if (gamepad2.dpad_down) {
+            leftLauncher.setPower(-0.4);
+            rightLauncher.setPower(0.4);
+        } else if (gamepad2.right_trigger > 0) {
+            leftLauncher.setPower(gamepad2.right_trigger);
+            rightLauncher.setPower(-gamepad2.right_trigger);
         } else {
             leftLauncher.setPower(0);
             rightLauncher.setPower(0);
         }
 
         telemetry.addLine("Launcher data");
-        telemetry.addData("Left RPM", leftLauncher.getPower()*330);     // The output shaft should
-        telemetry.addData("Right RPM", rightLauncher.getPower()*330);   // be turning at roughly
+        //telemetry.addData("Left RPM", leftLauncher.getPower()*);     // The output shaft should
+        //telemetry.addData("Right RPM", rightLauncher.getPower()*330);   // be turning at roughly
                                                                         // 330 times it's input power
         telemetry.addLine("Encoder values");
         telemetry.addData("Left Drive", rb.frontLeft.getCurrentPosition());

@@ -46,6 +46,8 @@ public class RobotDrive {
                 frontRight = hw.dcMotor.get("FR");
                 // TODO find a better way to do this
                 motors = new DcMotor[] {frontLeft, frontRight};
+                // Don't forget this, or else force a null check in line 111
+                this.mode = TWO_WHEEL;
                 break;
         }
     }
